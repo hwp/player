@@ -98,7 +98,7 @@ int main(int argc, char** argv) {
   PlayerClient    robot("localhost");
   RangerProxy     rp(&robot, 1);
   Position2dProxy pp(&robot, 0);
-//Graphics2dProxy gp(&robot);
+  Graphics2dProxy gp(&robot, 0);
 
   /*
      while (1) {
@@ -122,14 +122,19 @@ int main(int argc, char** argv) {
       double ly = rp[left] * sin(la);
 
       double ra = rp.GetMinAngle() + right * rp.GetAngularRes();
-      double rx = rp[right] * cos(la);
-      double ry = rp[right] * sin(la);
+      double rx = rp[right] * cos(ra);
+      double ry = rp[right] * sin(ra);
 
       printf("Door found at angle %f~%f\n", la, ra);
-//    player_point_2d_t door[2];
-//    door[0] = getPoint(toWorld(pp, lx, ly, 0));
-//    door[1] = getPoint(toWorld(pp, rx, ry, 0));
-//    gp.DrawMultiline(door, 2);
+      printf("Left (%f, %f)\n", lx, ly);
+      printf("Right (%f, %f)\n", rx, ry);
+      player_point_2d_t door[2];
+      door[0].px = lx;
+      door[0].py = ly;
+      door[1].px = rx;
+      door[1].py = ry;
+      gp.Clear();
+      gp.DrawMultiline(door, 2);
 
       if (fabs((la + ra) / 2.0) < .1) {
         printf("Straight -- %f\n", fabs((la + ra) / 2.0));

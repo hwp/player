@@ -1,0 +1,69 @@
+# simple.world - basic world file example
+# Authors: Richard Vaughan
+# $Id$
+
+include "pioneer.inc"
+include "map.inc"
+#include "sick.inc"
+include "urg.inc"
+include "platte.inc"
+include "laptop.inc"
+
+# time to pause (in GUI mode) or quit (in headless mode (-g)) the simulation
+quit_time 3600 # 1 hour of simulated time
+
+paused 1
+
+resolution 0.02
+
+# configure the GUI window
+window
+(
+  size [ 788.000 842.000 ] # in pixels
+  scale 35.648   # pixels per meter
+  center [ 0.240 -0.382 ]
+  rotate [ 0  0 ]
+  			
+  show_data 1              # 1=on 0=off
+)
+
+# load an environment bitmap
+floorplan
+( 
+  name "cave"
+  size [62.900 15.700 2.800]
+#  size [16.000 16.000 0.800]
+  pose [0 0 0 0]
+  bitmap "bitmaps/tams_compl.png"
+)
+
+define bobsgripper gripper
+(
+  #pose [0.23 0.000 -0.20 0.000]
+  pose [0.22 0.000 -0.205 0.000]
+  color "gray"
+)
+
+fancypioneer2dx
+(		  
+  # can refer to the robot by this name
+  name "r0"
+  pose [ -6.432 -5.895 0 45.000 ] 
+
+  # pioneer2dx's sonars	will be ranger:0 and the laser will be ranger:1
+#  sicklaser( pose [ 0 0 0 0 ] ) 
+    urg_ranger( pose [ 0.13 0 0 0 ]
+    #ctrl "lasernoise"
+  )
+  platte()
+  laptop()
+  bobsgripper()
+ 
+  # demonstrate a plugin controller, implemented in examples/ctrl/wander.cc
+  # you probably should comment this out when using simple.cfg with Player
+#  ctrl "wander"
+
+  # report error-free position in world coordinates
+  localization "gps"
+  localization_origin [ 0 0 0 0 ]
+)

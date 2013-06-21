@@ -32,6 +32,7 @@
 using namespace PlayerCc;
 
 #define GRAD_THRESHOLD 0.5
+#define MAX_SHIFT 0.3
 #define PI 3.14159265
 
 /** 
@@ -51,13 +52,14 @@ int find_door(const RangerProxy& scan, int& left, int& right) {
 
   // assume there is only one door
   for (int i = 0; i < size; i++) {
-    if (grad[i] > GRAD_THRESHOLD) {
+    if (left < 0 && grad[i] > GRAD_THRESHOLD) {
       left = i - 1;
       if (left < 0) {
         left = 0;
       }
     }
-    else if (left >= 0 && grad[i] < -GRAD_THRESHOLD) {
+    else if (left >= 0 && grad[i] < -GRAD_THRESHOLD 
+        && scan[i] - scan[left] < MAX_SHIFT) {
       right = i + 1;
       if (right >= size) {
         right = size - 1;

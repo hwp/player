@@ -130,7 +130,6 @@ int main(int argc, char** argv) {
   PlayerClient    robot("localhost");
   RangerProxy     rp(&robot, 1);
   Position2dProxy pp(&robot, 0);
-  Graphics2dProxy gp(&robot, 0);
 
   /*
      while (1) {
@@ -146,8 +145,6 @@ int main(int argc, char** argv) {
     printf("\n\n\n\n\n\n++++++++++++++++++++++\n");
     printf("Current Pos (%f, %f, %f)\n", pp.GetXPos(), pp.GetYPos(), pp.GetYaw());
       
-    gp.Clear();
-
     int left, right;
     double mx, my, ma;
     if (find_door(rp, left, right)) {
@@ -163,12 +160,6 @@ int main(int argc, char** argv) {
       printf("Left (%f, %f)\n", lx, ly);
       printf("Right (%f, %f)\n", rx, ry);
       printf("Door width %f\n", door_width(rp, left, right));
-      player_point_2d_t door[2];
-      door[0].px = lx;
-      door[0].py = ly;
-      door[1].px = rx;
-      door[1].py = ry;
-      gp.DrawMultiline(door, 2);
 
       if (fabs((la + ra) / 2.0) < .1) {
         printf("Straight -- %f\n", fabs((la + ra) / 2.0));

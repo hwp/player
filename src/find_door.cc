@@ -114,6 +114,17 @@ player_pose2d_t toWorld(const Position2dProxy& pp, double x, double y, double a)
   return r;
 }
 
+double sign(double x) {
+  if (x > 0) {
+    return 1.0;
+  }
+  else if (x < 0) {
+    return -1.0;
+  }
+  else {
+    return 0.0;
+  }
+}
 
 int main(int argc, char** argv) {
   PlayerClient    robot("localhost");
@@ -161,27 +172,17 @@ int main(int argc, char** argv) {
 
       if (fabs((la + ra) / 2.0) < .1) {
         printf("Straight -- %f\n", fabs((la + ra) / 2.0));
-        mx = 1.0;
-        my = mx * (la + ra) / 2.0;
-        ma = 0.0;
+        printf("Turn\n");
+        pp.SetSpeed(0.2, 0, 0);
       }
       else {
         printf("Turn\n");
-        mx = 0.0;
-        my = 0.0;
-        ma = (la + ra) / 2.0;
+        pp.SetSpeed(0, 0, .3 * sign(la + ra));
       }
     }
     else {
       printf("No Door detected\n");
-      mx = 0;
-      my = 0;
-      ma = 1;
+      pp.SetSpeed(0, 0, .3);
     }
-
-    printf("relative(%f, %f, %f)\n", mx, my, ma);
-    player_pose2d_t pose = toWorld(pp, mx, my, ma);
-    printf("goto(%f, %f, %f)\n", pose.px, pose.py, pose.pa);
-    pp.GoTo(pose);
   }
 }

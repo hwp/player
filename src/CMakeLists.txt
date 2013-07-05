@@ -11,6 +11,7 @@ INCLUDE (UsePlayerPlugin)
 # the 'exampleclient.cc' source file.
 PLAYER_ADD_PLAYERCPP_CLIENT (example SOURCES example.cc)
 PLAYER_ADD_PLAYERCPP_CLIENT (find_door SOURCES find_door.cc)
+PLAYER_ADD_PLAYERCPP_CLIENT (scan SOURCES scan.cc)
  
 # You can install the example client system-wide, using the INSTALL command.  The
 # path is relative to CMAKE_INSTALL_PREFIX which defaults to /usr/local.  This will
